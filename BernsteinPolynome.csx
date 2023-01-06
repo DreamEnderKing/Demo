@@ -1,4 +1,15 @@
-Func<double, double> function = new Func<double, double>((x) => x * (x + 2) + Math.Sin(x));
+Func<double, double> function = new Func<double, double>((x) => {
+    if(x >= 0 && x < 0.1)
+        return 0.2;
+    else if(x < 0.2)
+        return 0.4;
+    else if(x < 0.4)
+        return 0.6;
+    else if(x < 0.8)
+        return 0.8;
+    else
+        return 1;
+});
 for(int i = 1; i <= 10; i++)
 {
     Console.WriteLine(BernsteinPolynome.ToBernsteinPolynome(i, function));
@@ -98,9 +109,9 @@ class Polynome
         for(int i = Times; i >= 0; i--)
         {
             if(Coefficients[i] > 0)
-                result += $"+{Coefficients[i]}(x^{i})";
+                result += $"+{Coefficients[i]}*(x.^{i})";
             else if(Coefficients[i] < 0)
-                result += $"{Coefficients[i]}(x^{i})";
+                result += $"{Coefficients[i]}*(x.^{i})";
         }
         return result;
     }
@@ -119,7 +130,7 @@ class BernsteinPolynome : Polynome
                 c /= s;
             for(int s = 1; s <= k; s++)
                 c /= s;
-            Coefficients[i+k] = c;
+            Coefficients[i+k] = k % 2 == 0 ? c : -c;
         }        
     }
 
